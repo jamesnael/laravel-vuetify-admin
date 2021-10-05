@@ -1,0 +1,187 @@
+@import '~vuetify/dist/vuetify.min.css';
+@import '~@mdi/font/css/materialdesignicons.min.css';
+body {
+    color: #000 !important;
+}
+.v-application {
+    font-family: Poppins, sans-serif;
+    line-height: 1.5 !important;
+    font-weight: 400;
+}
+.v-application .display-1, .v-application .subtitle-1 {
+    font-family: Poppins, sans-serif !important;
+}
+.v-application a.link {
+    color: #455a64;
+    text-decoration: none;
+}
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+}
+
+@-moz-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-o-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.v-navigation-drawer__content {
+    display: block;
+    overflow: hidden scroll;
+    height: 100%;
+    width: calc(100% + 17px);
+}
+
+.login .v-main__wrap {
+    background-color: #F5F5F5;
+}
+
+.v-main__wrap {
+    background-color: #ffffff;
+}
+
+.main-menu--active {
+    background-color: #BD342D !important;
+    border-color: #BD342D !important;
+    color: #fff !important;
+}
+
+.style-navigation .v-list .v-list-group__items .v-list-item--active {
+    background-color: #544949 !important;
+    color: #ffffff !important;
+}
+
+.style-navigation .v-list .v-list-item--active {
+    background-color: #BD342D !important;
+    color: #ffffff !important;
+}
+
+.style-navigation .v-list .v-list-item--link:before {
+    background-color: currentColor;
+    bottom: 0;
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .3s cubic-bezier(.25,.8,.5,1);
+}
+
+.style-navigation .v-list .v-list-item--link:hover {
+    background-color: #544949;
+    transition: .3s cubic-bezier(.25,.8,.5,1);
+}
+
+.op-5 {
+    opacity: 0.5;
+}
+
+.style-bottom-nav {
+    bottom: 0;
+    left: 0;
+    justify-content: center;
+    width: 100%;
+    border-top: gray solid 2px;
+    margin-top: auto;
+}
+
+.style-text-job{
+    font-size: 11px;
+    color: #bdbaba;
+}
+
+.style-navigation .v-list--dense .v-list-item, .v-list-item--dense {
+    height: 40px !important;
+}
+
+.h-100{
+    height: 100%;
+}
+
+.style-table tbody tr:nth-of-type(even) {
+   background-color: #F5F5F5;
+}
+
+.style-pagination .theme--light.v-icon{
+    color: #BD342D !important;
+}
+
+.style-pagination .v-pagination{
+    justify-content: left !important;
+}
+
+.v-btn {
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+}
+
+.v-text-field--filled>.v-input__control>.v-input__slot, .v-text-field--full-width>.v-input__control>.v-input__slot, .v-text-field--outlined>.v-input__control>.v-input__slot {
+    align-items: stretch;
+    min-height: 50px;
+}
+
+.v-input{
+    font-size: 15px;
+}
+
+.v-text-field--enclosed .v-input__append-inner, .v-text-field--enclosed .v-input__append-outer, .v-text-field--enclosed .v-input__prepend-inner, .v-text-field--enclosed .v-input__prepend-outer, .v-text-field--full-width .v-input__append-inner, .v-text-field--full-width .v-input__append-outer, .v-text-field--full-width .v-input__prepend-inner, .v-text-field--full-width .v-input__prepend-outer {
+    margin-top: 14px;
+}
+
+.theme--light.v-data-table tbody tr.v-data-table__selected {
+    background: #fdead4 !important;
+}
+
+.v-tab--active {
+    background-color: #bd342d !important;
+    color: white !important;
+    border-radius: 4px;
+}
+
+.v-tab {
+    font-size: .825rem;
+    background-color: #fafafa;
+    letter-spacing: .0592857143em;
+}
+
+.v-tabs-slider-wrapper {
+    height: 0px !important;
+}
+
+.text-red{
+    color: #ff0c00 !important;
+}

@@ -1,0 +1,169 @@
+UPDATE tb_upah_kerja SET `paid_date` = DATE_ADD(`date_upah`, INTERVAL 1 DAY) WHERE paid = 1;
+
+
+NON WIRTGEN:
+- KERJA FULL
+- KERJA NOT FULL
+- KERJA < 3 + STANDBY
+- KERJA > 3 + STANDBY
+- STANDBY FULL
+- NO LEMBUR
+- LEMBUR < 3 - INSENTIF
+- LEMBUR > 3 - INSENTIF
+- LEMBUR < 3 + INSENTIF
+- LEMBUR > 3 + INSENTIF
+
+
+WIRTGEN:
+- KERJA FULL
+- KERJA + STANDBY <= 8
+- KERJA + STANDBY > 8
+- STAND BY FULL
+- STAND BY FULL + LEMBUR
+- KERJA + STANDBY + LEMBUR
+- KERJA FULL + LEMBUR
+
+WIRTGEN LEMBUR DARI START KERJA > 8 JAM
+API START KERJA WIRTGEN
+BACKEND START KERJA 8 JAM
+UPAH HELPER CALCULATE HARIAN WIRTGEN -> DURASI NORMAL DARI START AWAL SAMPAI END AKHIR
+UPAH HELPER CALCULATE HARIAN -> GET DATA KALO LEMBUR START DARI NEXT DAY
+
+
+TODO:
+ACTIVITY LOG
+VIEW FUNGSI INSENTIF + KOMISI + LEMBUR WIRTGEN -> REPORT
+
+REPORT:
+FUNGSI INSENTIF + KOMISI + LEMBUR WIRTGEN -> AMBIL KE TIMESHEET 
+GENERATE EXCEL INSENTIF + KOMISI + LEMBUR WIRTGEN
+
+KENDALA:
+TIMESHEET LOCK? JIKA INSENTIF SUDAH KELUAR
+PER KOLOM ADA INFO KERJA, LEMBUR + INSENTIF LEMBUR
+ 
+INFO:
+WIRTGEN INSENTIF JAM 11 - 12 MALEM GA ADA
+EXTRACT  DATA BULANAN GA BISA EDIT TIMESHEET
+
+==================================================================================================
+
+
+activity()
+   ->withProperties([
+      'action' => 'DELETE' -> ADD / EDIT / DELETE / APPROVE / EXTRACT / BAYAR
+      'causer' => $user, -> LOGGED USER
+      'target' => [ $user1, $user2 ] => ADD / EDIT / DELETE -> Masukin Row + Relasi nya kalo butuh
+      'attributes' => LOG ATTRIBUTES NYA AJA
+   ])
+   ->log('Look mum, I logged something'); -> DESCRIPTION
+
+
+
+
+
+WIRTGEN KERJA HARIAN, LEMBUR BULANAN
+WIRTGEN ORANGNYA AMBIL DARI TIPE UNIT
+
+UPAH KERJA:
+
+cut off istirahat 12:00 - 13:00
+
+- Kerja di atas 3 jam stand by hilang
+- kerja di bawah 3 jam dihitung stand by/hari + uang kerja/jam
+
+kerja 4 jam + kerja 4 jam
+kerja 4 jam + stand by 4 jam
+stand by 4 jam + stand by 4 jam
+kerja 4 jam + kerja 1 jam + stand by 3 jam
+kerja 3 jam + stand by 1 jam + stand by 4 jam
+kerja 2 jam + stand by 2 jam + stand by 4 jam
+
+
+PERHITUNGAN UPAH:
+// if start_date + start_kerja/lembur lessThan start_date + 12:00:00
+  // if end_date + end_kerja/lembur lessThan start_date + 12:00:00
+    // hitung start_date + start_kerja/lembur - end_date + end_kerja/lembur
+  // else end_date + end_kerja/lembur greaterThanOrEqualTo start_date + 12:00:00
+    // hitung start_date + start_kerja/lembur - start_date + 12:00:00
+    // if end_date + end_kerja/lembur greaterThanOrEqualTo start_date + 13:00:00
+      // hitung start_date + 13:00:00 - end_date + end_kerja/lembur
+// else start_date + start_kerja/lembur greaterThanOrEqualTo start_date + 12:00:00
+  // if start_date + start_kerja/lembur lessThan start_date + 13:00:00
+    // if end_date + end_kerja/lembur greaterThanOrEqualTo start_date + 13:00:00
+      // hitung start_date + 13:00:00 - end_date + end_kerja/lembur
+  // else start_date + start_kerja/lembur greaterThanOrEqualTo start_date + 13:00:00
+    // hitung start_date + start_kerja/lembur - end_date + end_kerja/lembur
+
+
+LEMBUR:
+
+sebelum cut off malam 23:00 - 00:00
+
+selama cut off malam 23:00 - 00:00
+> 1 jam +50.000
+
+setelah cut off malam 23:00 - 00:00
+
+
+CRON:
+
+# if now() betweenIncluded now() + start_jam_kerja_proyek and now() + end_jam_kerja_proyek
+  -> Get data start_lembur not null and end_lembur null
+  $ foreach data
+    # if now() greaterThanOrEqualTo now() + start_jam_kerja_proyek
+      -> data update end_lembur start_jam_kerja_proyek, end_date now()
+      -> insert start_date now(), start_kerja start_jam_kerja_proyek
+# else exclude jam_kerja_proyek
+  -> Get data (start_kerja not null and end_kerja null) or (start_standby not null and end_standby null)
+  $ foreach data
+    # if now() greaterThanOrEqualTo now() + batas_akhir_absen_proyek
+      # if start_kerja not null and end_kerja null
+        -> data update end_kerja batas_akhir_absen_proyek, end_date now() // (SATUIN SAMA LINE 51)
+        -> insert start_date now(), start_lembur batas_akhir_absen_proyek
+      # elseif start_standby not null and end_standby null
+        -> data update end_standby batas_akhir_absen_proyek, end_date now()  // (SATUIN SAMA LINE 48)
+
+
+
+
+
+jam 7.59
+- start kerja setelah 7.30 update start kerja 8:00
+  DB::table('tb_timesheet_details')
+    ->whereNotNull('start_kerja')
+    ->whereNull('end_kerja')
+    ->whereTime('start_kerja', '>=', '07:30:00')
+    ->update(['start_kerja' => '8:00:00']);
+
+- start lembur not null and end lembur null update end lembur 8:00 + insert start kerja 8:00
+  DB::table('tb_timesheet_details')
+    ->whereNotNull('start_lembur')
+    ->whereNull('end_lembur')
+    ->get();
+
+  foreach($data => $value)
+    $value->update(['end_lembur' => '08:00:00']);
+    
+    DB::table('tb_timesheet_details')
+      ->create(['start_kerja' => '08:00:00', ...$value ]);
+
+- CALCULATE LEMBUR
+
+jam 17:31
+- start kerja not null and end kerja null end kerja 17:00 + insert start lembur 17:00
+  DB::table('tb_timesheet_details')
+    ->whereNotNull('start_kerja')
+    ->whereNull('end_kerja')
+    ->update(['end_kerja' => '17:00:00']);
+
+- start kerja not null and end kerja sebelum 17:30 update end kerja 17:00
+  DB::table('tb_timesheet_details')
+    ->whereNotNull('start_kerja')
+    ->whereNotNull('end_kerja')
+    ->whereTime('end_kerja', '>=', '16:30:00')
+    ->update(['end_kerja' => '17:00:00']);
+
+- start kerja not null and end kerja sebelum 17:30 do nothing
+
+- CALCULATE UPAH KERJA
