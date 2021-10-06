@@ -11,13 +11,13 @@
         <div class="d-block d-sm-flex mb-2">
             <v-row class="py-4 px-3">
                 <v-img
-                  lazy-src="/img/logo74.png"
-                  max-height="70"
-                  max-width="70"
-                  src="/img/logo74.png"
+                  lazy-src="/img/logo44.png"
+                  max-height="40"
+                  max-width="40"
+                  src="/img/logo44.png"
                   class="my-auto"
                 ></v-img>
-                <small class="my-auto ml-2">Admin Panel</small>
+                <small class="my-auto ml-4">Admin Panel</small>
             </v-row>
         </div>
         <template v-for="item in menu">
