@@ -3,7 +3,7 @@
 Vue 2.6 + Laravel 8 + Admin Template CRUD example Using Vuetify
 
 <img src="login.PNG" width="400">
-<img src="Dashboard.PNG" width="400">
+<img src="Dashboard2.PNG" width="400">
 
 ### Installation
 
