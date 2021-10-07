@@ -67,3 +67,14 @@ php artisan db:seed
 ````
 php artisan module:seed
 ````
+
+3. Testing the data
+```
+Login with :
+username : admin_test
+password : password
+```
+
+<br>
+Thanks,<br>
+James Nathanael
