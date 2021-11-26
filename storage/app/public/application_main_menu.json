@@ -1,0 +1,103 @@
+{
+    "Login": [
+        {
+            "method": "GET|HEAD",
+            "uri": "\/",
+            "name": "auth.login",
+            "menu": "Login",
+            "deskripsi": "Login Backend"
+        }
+    ],
+    "Dashboard": [
+        {
+            "method": "GET|HEAD",
+            "uri": "\/",
+            "name": "dashboard.index",
+            "menu": "Dashboard",
+            "deskripsi": "Lihat Dashboard"
+        }
+    ],
+    "Jabatan": [
+        {
+            "method": "GET|HEAD",
+            "uri": "jabatan",
+            "name": "jabatan.index",
+            "menu": "Jabatan",
+            "deskripsi": "Lihat Jabatan"
+        },
+        {
+            "method": "GET|HEAD",
+            "uri": "jabatan\/tambah",
+            "name": "jabatan.create",
+            "menu": "Jabatan",
+            "deskripsi": "Tambah Jabatan"
+        },
+        {
+            "method": "DELETE",
+            "uri": "jabatan\/{jabatan}",
+            "name": "jabatan.destroy",
+            "menu": "Jabatan",
+            "deskripsi": "Hapus Jabatan"
+        },
+        {
+            "method": "GET|HEAD",
+            "uri": "jabatan\/{jabatan}\/ubah",
+            "name": "jabatan.edit",
+            "menu": "Jabatan",
+            "deskripsi": "Ubah Jabatan"
+        }
+    ],
+    "Karyawan / Mitra": [
+        {
+            "method": "GET|HEAD",
+            "uri": "user",
+            "name": "user.index",
+            "menu": "Karyawan",
+            "deskripsi": "Lihat Karyawan"
+        },
+        {
+            "method": "GET|HEAD",
+            "uri": "user\/tambah",
+            "name": "user.create",
+            "menu": "Karyawan",
+            "deskripsi": "Tambah Karyawan"
+        },
+        {
+            "method": "DELETE",
+            "uri": "user\/{user}",
+            "name": "user.destroy",
+            "menu": "Karyawan",
+            "deskripsi": "Hapus Karyawan"
+        },
+        {
+            "method": "GET|HEAD",
+            "uri": "user\/{user}\/ubah",
+            "name": "user.edit",
+            "menu": "Karyawan",
+            "deskripsi": "Ubah Karyawan"
+        },
+        {
+            "method": "GET|HEAD",
+            "uri": "user\/{user}\/view",
+            "name": "user.view",
+            "menu": "Karyawan",
+            "deskripsi": "View Karyawan"
+        }
+    ],
+    "Aktivitas": [
+        {
+            "method": "GET|HEAD",
+            "uri": "Aktivitas",
+            "name": "riwayat.index",
+            "menu": "Aktivitas",
+            "deskripsi": "Lihat Log Aktivitas Web"
+        },
+        {
+            "method": "GET|HEAD",
+            "uri": "riwayat\/{riwayat}\/detail",
+            "name": "riwayat.detail",
+            "menu": "Aktivitas",
+            "deskripsi": "Rincian Aktivitas Web"
+        }
+    ]
+}
