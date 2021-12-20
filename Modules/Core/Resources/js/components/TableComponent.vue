@@ -335,7 +335,7 @@
 	        },
 	    },
 	    mounted () {
-	        this.dataHandler()
+	        // this.dataHandler()
 	    },
 	    computed:{
 	        query() {
