@@ -240,19 +240,48 @@ if (! function_exists('get_file_content')) {
 }
 
 if (! function_exists('log_activity')) {
-    function log_activity($description, $model, $extra = [], $causer = null, $log_name = null) {
+    function log_activity($description, $model, $extra = [], $causer = null, $log_name = null, $flag = false) {
         $properties = [];
         if (is_array($model)) {
-            foreach ($model as $key => $value) {
+            if ($flag == true) {
+                if (isset($extra['old'])) {
+                    $changes = array_diff_assoc($model, $extra['old']);
+                }
+
                 $properties[] = collect([
-                                    'attributes' => $value->getOriginal() ?? null,
-                                    'changes' => $value->getChanges() ?? null,
-                                ])->merge($extra);
+                                'attributes' => $model ?? null,
+                                'changes' => $changes,
+                            ])->merge($extra);
+            } else {
+                foreach ($model as $key => $value) {
+                    if ($value->getChanges()) {
+                        $changes = $value->getChanges();
+                    } else {
+                        $changes = [];
+                        if (isset($extra['old'])) {
+                            $changes = array_diff_assoc($value->toArray(), $extra['old']);
+                        }
+                    }
+
+                    $properties[] = collect([
+                                        'attributes' => $value->getOriginal() ?? null,
+                                        'changes' => $changes,
+                                    ])->merge($extra);
+                }
             }
         } else {
+            if ($model->getChanges()) {
+                $changes = $model->getChanges();
+            } else {
+                $changes = [];
+                if (isset($extra['old'])) {
+                    $changes = array_diff_assoc($model->toArray(), $extra['old']);
+                }
+            }
+
             $properties[] = collect([
                                 'attributes' => $model->getOriginal() ?? null,
-                                'changes' => $model->getChanges() ?? null,
+                                'changes' => $changes,
                             ])->merge($extra);
         }
 

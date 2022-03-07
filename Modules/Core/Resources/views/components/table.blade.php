@@ -29,21 +29,7 @@
 		            </span>
 		        </template>
 		    </v-btn>
-		    @if (Route::currentRouteName() == 'timesheets.detail')
-		    	@if(in_array(str_replace('timesheets.detail', 'timesheets-detail.create', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-		    		<v-btn
-						v-if="addNewUri"
-						:href="addNewUri"
-						class="ma-2 white--text"
-					    elevation="5"
-					    :color="addNewColor"
-					    >
-					    <v-icon>@{{ addNewIcon }}</v-icon>
-					    <span class="hidden-xs-only ml-2">@{{ addNewText }}</span>
-				    </v-btn>
-		    	@endif
-		    @else
-			    @if (in_array(str_replace('index', 'create', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
+		    @if (in_array(str_replace('index', 'create', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
 		    	<v-btn
 					v-if="addNewUri"
 					:href="addNewUri"
@@ -54,63 +40,32 @@
 				    <v-icon>@{{ addNewIcon }}</v-icon>
 				    <span class="hidden-xs-only ml-2">@{{ addNewText }}</span>
 			    </v-btn>
-			    @endif
-			@endif
-
-			@if (Route::currentRouteName() == 'timesheets.detail')
-		    	@if(in_array(str_replace('timesheets.detail', 'timesheets-detail.setujui', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-		    		<v-btn
-						v-if="bulkUpdateUri"
-						:loading="field_state"
-					    @click="submitBulkUpdateTimesheetsDetail()"
-						class="ma-2 white--text"
-					    elevation="5"
-					    :color="bulkUpdateColor"
-					    :disabled="bulkUpdateDisabled"
-					    >
-					    <span class="hidden-xs-only">@{{ bulkUpdateText }}</span>
-				    </v-btn>
-		    	@endif
-		    @else
-			    <v-btn
-					v-if="bulkUpdateUri"
-					:loading="field_state"
-					class="ma-2 white--text"
-				    elevation="5"
-				    :color="bulkUpdateColor"
-				    :disabled="bulkUpdateDisabled"
-				    
-				    @click.stop="promptBulkItem()"
-				    >
-				    <span class="hidden-xs-only">@{{ bulkUpdateText }}</span>
-			    </v-btn>
 		    @endif
 
-		    @if (Route::currentRouteName() == 'timesheets.detail')
-		    	@if(in_array(str_replace('timesheets.detail', 'timesheets-detail.setujui', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-	    		    <v-btn
-	    				v-if="bulkUpdateUriSecond"
-	    				:loading="field_state_second"
-	    			    @click="submitBulkUpdateSecond()"
-	    				class="ma-2 white--text"
-	    			    elevation="5"
-	    			    :color="bulkUpdateColorSecond"
-	    			    >
-	    			    <span class="hidden-xs-only">@{{ bulkUpdateTextSecond }}</span>
-	    		    </v-btn>
-		    	@endif
-		    @else
-			    <v-btn
-					v-if="bulkUpdateUriSecond"
-					:loading="field_state_second"
-				    @click="submitBulkUpdateSecond()"
-					class="ma-2 white--text"
-				    elevation="5"
-				    :color="bulkUpdateColorSecond"
-				    >
-				    <span class="hidden-xs-only">@{{ bulkUpdateTextSecond }}</span>
-			    </v-btn>
-		    @endif
+		    <v-btn
+				v-if="bulkUpdateUri"
+				:loading="field_state"
+				class="ma-2 white--text"
+			    elevation="5"
+			    :color="bulkUpdateColor"
+			    :disabled="bulkUpdateDisabled"
+			    
+			    @click.stop="promptBulkItem()"
+			    >
+			    <span class="hidden-xs-only">@{{ bulkUpdateText }}</span>
+		    </v-btn>
+
+		    <v-btn
+				v-if="bulkUpdateUriSecond"
+				:loading="field_state_second"
+			    @click="submitBulkUpdateSecond()"
+				class="ma-2 white--text"
+			    elevation="5"
+			    :color="bulkUpdateColorSecond"
+			    >
+			    <span class="hidden-xs-only">@{{ bulkUpdateTextSecond }}</span>
+		    </v-btn>
+
 		    <slot name="btnslot"></slot>
 		</v-col>
 	</v-row>
@@ -174,42 +129,21 @@
 			</v-tooltip>
 			@endif
 
-
-			@if (Route::currentRouteName() == 'timesheets.index')
-		    	@if(in_array('timesheets-detail.create', Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-		    		<v-tooltip top :color="viewColor">
-					    <template v-slot:activator="{ on, attrs }">
-				    		<v-btn 
-					    		v-if="viewUri" 
-					    		icon 
-					    		:color="viewColor" 
-					    		v-bind="attrs" 
-					    		v-on="on" 
-					    		:href="ziggy(viewUri, [item[viewUriParameter]]).url()"
-				    		>
-								<v-icon small>@{{ viewIcon }}</v-icon>
-				            </v-btn>
-					    </template>
-					    <span>@{{ viewText }}</span>
-					</v-tooltip>
-		    	@endif
-		    @else
-				<v-tooltip top :color="viewColor">
-				    <template v-slot:activator="{ on, attrs }">
-			    		<v-btn 
-				    		v-if="viewUri" 
-				    		icon 
-				    		:color="viewColor" 
-				    		v-bind="attrs" 
-				    		v-on="on" 
-				    		:href="ziggy(viewUri, [item[viewUriParameter]]).url()"
-			    		>
-							<v-icon small>@{{ viewIcon }}</v-icon>
-			            </v-btn>
-				    </template>
-				    <span>@{{ viewText }}</span>
-				</v-tooltip>
-			@endif
+			<v-tooltip top :color="viewColor">
+			    <template v-slot:activator="{ on, attrs }">
+		    		<v-btn 
+			    		v-if="viewUri" 
+			    		icon 
+			    		:color="viewColor" 
+			    		v-bind="attrs" 
+			    		v-on="on" 
+			    		:href="ziggy(viewUri, [item[viewUriParameter]]).url()"
+		    		>
+						<v-icon small>@{{ viewIcon }}</v-icon>
+		            </v-btn>
+			    </template>
+			    <span>@{{ viewText }}</span>
+			</v-tooltip>
 
 		    @if (in_array(str_replace('index', 'approve', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
 			<v-tooltip top :color="approveColor">
@@ -222,82 +156,42 @@
 			</v-tooltip>
 			@endif
 
-			@if (Route::currentRouteName() == 'timesheets.detail')
-		    	@if(in_array(str_replace('timesheets.detail', 'timesheets-detail.edit', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-	    		    <v-tooltip top :color="editColor">
-					    <template v-slot:activator="{ on, attrs }">
-				    		<v-btn 
-					    		v-if="editUri" 
-					    		icon 
-					    		:color="editColor" 
-					    		v-bind="attrs" 
-					    		v-on="on" 
-					    		:href="editParamsUri(item)"
-				    		>
-								<v-icon small>@{{ editIcon }}</v-icon>
-				            </v-btn>
-					    </template>
-					    <span>@{{ editText }}</span>
-					</v-tooltip>
-		    	@endif
-		    @else
-			    @if (in_array(str_replace('index', 'edit', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-					<v-tooltip top :color="editColor">
-					    <template v-slot:activator="{ on, attrs }">
-				    		<v-btn 
-					    		v-if="editUri" 
-					    		icon 
-					    		:color="editColor" 
-					    		v-bind="attrs" 
-					    		v-on="on" 
-					    		:href="editParamsUri(item)"
-				    		>
-								<v-icon small>@{{ editIcon }}</v-icon>
-				            </v-btn>
-					    </template>
-					    <span>@{{ editText }}</span>
-					</v-tooltip>
-				@endif
-			@endif
-
-			@if (Route::currentRouteName() == 'timesheets.detail')
-		    	@if(in_array('timesheets-detail.print', Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-	    			<v-tooltip top :color="printColor">
-	    			    <template v-slot:activator="{ on, attrs }">
-	    		    		<v-btn 
-	    			    		v-if="printUri" 
-	    			    		icon 
-	    			    		:color="printColor" 
-	    			    		v-bind="attrs" 
-	    			    		v-on="on" 
-	    			    		:href="printParamsUri(item)"
-	    			    		target="_blank"
-	    		    		>
-	    						<v-icon small>@{{ printIcon }}</v-icon>
-	    		            </v-btn>
-	    			    </template>
-	    			    <span>@{{ printText }}</span>
-	    			</v-tooltip>
-		    	@endif
-		    @else
-				<v-tooltip top :color="printColor">
+		    @if (in_array(str_replace('index', 'edit', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
+				<v-tooltip top :color="editColor">
 				    <template v-slot:activator="{ on, attrs }">
 			    		<v-btn 
-				    		v-if="printUri" 
+				    		v-if="editUri" 
 				    		icon 
-				    		:color="printColor" 
+				    		:color="editColor" 
 				    		v-bind="attrs" 
 				    		v-on="on" 
-				    		:href="printParamsUri(item)"
-				    		target="_blank"
+				    		:href="editParamsUri(item)"
 			    		>
-							<v-icon small>@{{ printIcon }}</v-icon>
+							<v-icon small>@{{ editIcon }}</v-icon>
 			            </v-btn>
 				    </template>
-				    <span>@{{ printText }}</span>
+				    <span>@{{ editText }}</span>
 				</v-tooltip>
 			@endif
-				<v-tooltip top :color="approveDetailColor">
+
+			<v-tooltip top :color="printColor">
+			    <template v-slot:activator="{ on, attrs }">
+		    		<v-btn 
+			    		v-if="printUri" 
+			    		icon 
+			    		:color="printColor" 
+			    		v-bind="attrs" 
+			    		v-on="on" 
+			    		:href="printParamsUri(item)"
+			    		target="_blank"
+		    		>
+						<v-icon small>@{{ printIcon }}</v-icon>
+		            </v-btn>
+			    </template>
+			    <span>@{{ printText }}</span>
+			</v-tooltip>
+
+			<v-tooltip top :color="approveDetailColor">
 	    		<template v-slot:activator="{ on, attrs }">
 	    			<v-btn 
 			    		v-if="approveDetailUri" 
@@ -313,19 +207,7 @@
 	    		<span>@{{ approveDetailText }}</span>
 	    	</v-tooltip>
 
-			@if (Route::currentRouteName() == 'timesheets.detail')
-		    	@if(in_array(str_replace('timesheets.detail', 'timesheets-detail.destroy', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
-	    		    <v-tooltip top :color="deleteColor">
-					    <template v-slot:activator="{ on, attrs }">
-				    		<v-btn v-if="deleteUri" icon :color="deleteColor" v-bind="attrs" v-on="on" @click.stop="promptDeleteItem(item)">
-								<v-icon small>@{{ deleteIcon }}</v-icon>
-				            </v-btn>
-					    </template>
-					    <span>@{{ deleteText }}</span>
-					</v-tooltip>
-		    	@endif
-		    @else
-			    @if (in_array(str_replace('index', 'destroy', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
+		    @if (in_array(str_replace('index', 'destroy', Route::currentRouteName()), Auth::user()->jabatan ? Auth::user()->jabatan->hak_akses : []))
 				<v-tooltip top :color="deleteColor">
 				    <template v-slot:activator="{ on, attrs }">
 			    		<v-btn v-if="deleteUri" icon :color="deleteColor" v-bind="attrs" v-on="on" @click.stop="promptDeleteItem(item)">
@@ -334,8 +216,8 @@
 				    </template>
 				    <span>@{{ deleteText }}</span>
 				</v-tooltip>
-				@endif
 			@endif
+			
 		</template>
 		<template v-slot:item.table_index="{ item }">
 			<strong>@{{ item.table_index }}</strong>

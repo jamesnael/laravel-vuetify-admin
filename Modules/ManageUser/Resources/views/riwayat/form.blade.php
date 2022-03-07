@@ -1,57 +1,5 @@
 <validation-observer v-slot="{ validate, reset }" ref="observer">
     <form method="post" enctype="multipart/form-data" ref="post-form">
-        <!-- <v-row>
-            <v-col cols="6">
-                <small class="ml-1">Nama</small>
-                <validation-provider rules="" name="Nama" v-slot="{ errors }">
-                    <v-text-field
-                        class="mt-1"
-                        v-model="form_data.nama"
-                        name="nama"
-                        clear-icon="mdi-eraser-variant"
-                        :error-messages="errors"
-                        :disabled="field_state"
-                        outlined
-                        readonly
-                    ></v-text-field>
-                </validation-provider>
-            </v-col>
-
-            <v-col cols="6">
-                <small class="ml-1">Aktivitas</small>
-                <validation-provider rules="" name="Aktivitas" v-slot="{ errors }">
-                    <v-text-field
-                    	class="mt-1"
-                        v-model="form_data.aktivitas"
-            			name="aktivitas"
-            			clear-icon="mdi-eraser-variant"
-        	    		:error-messages="errors"
-        	    		:disabled="field_state"
-                        outlined
-                        readonly
-                    ></v-text-field>
-                </validation-provider>
-            </v-col>
-        </v-row>
-
-        <v-row>
-            <v-col cols="6">
-                <small class="ml-1">Tanggal</small>
-                <validation-provider rules="" name="Tanggal" v-slot="{ errors }">
-                    <v-text-field
-                        class="mt-1"
-                        v-model="form_data.tanggal"
-                        name="tanggal"
-                        clear-icon="mdi-eraser-variant"
-                        :error-messages="errors"
-                        :disabled="field_state"
-                        outlined
-                        readonly
-                    ></v-text-field>
-                </validation-provider>
-            </v-col>
-        </v-row> -->
-
         <v-row>
             <v-col cols="12">
                 <v-simple-table class="elevation-2 py-2 mb-5">
@@ -85,60 +33,92 @@
             </v-col>
         </v-row>
 
-        <v-card class="my-5">
-            <v-card-title>
-                <h5>Detail Data</h5>
-            </v-card-title>
-            <v-card-text class="px-0">
-                <div class="v-data-table elevation-0 style-table mx-2 theme--light">
-                    <div class="v-data-table__wrapper">
-                        <table v-for="(element, index) in form_data.properties">
-                            <tbody>
-                                <tr
-                                    v-for="(data, idx) in element.attributes"
-                                >
-                                    <td v-if="showNotId(idx)">@{{ idx }}</td>
-                                    <td v-if="showNotId(idx)">:</td>
-                                    <td v-if="showNotId(idx)">@{{ data }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+        <div v-for="(element, index) in form_data.properties">
+            <v-card class="my-5" v-if="(element.attributes.length > 0 || Object.keys(element.attributes).length > 0) && (element.changes.length == 0 || Object.keys(element.changes).length == 0)">
+                <v-card-title>
+                    <h5>Detail Data</h5>
+                </v-card-title>
+                <v-card-text class="px-0">
+                    <div class="v-data-table elevation-0 style-table mx-2 theme--light">
+                        <div class="v-data-table__wrapper">
+                            <table>
+                                <tbody>
+                                    <tr
+                                        v-for="(data, idx) in element.attributes"
+                                    >
+                                        <td v-if="showNotId(idx)">@{{ idx }}</td>
+                                        <td v-if="showNotId(idx)">:</td>
+                                        <td v-if="showNotId(idx)">@{{ data }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </v-card-text>
-        </v-card>
+                </v-card-text>
+            </v-card>
 
-        <v-card class="my-5">
-            <v-card-title>
-                <h5>Perubahan Data</h5>
-            </v-card-title>
-            <v-card-text class="px-0">
-                <div class="v-data-table elevation-0 style-table mx-2 theme--light">
-                    <div class="v-data-table__wrapper">
-                        <table v-for="(element, index) in form_data.properties">
-                            <tbody>
-                                <tr
-                                    v-for="(data, idx) in element.changes"
-                                >
-                                    <td v-if="showNotId(idx)">@{{ idx }}</td>
-                                    <td v-if="showNotId(idx)">:</td>
-                                    <td v-if="showNotId(idx)">@{{ data }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+            <v-card class="my-5" v-if="(element.hasOwnProperty('old')) && (element.changes.length > 0 || Object.keys(element.changes).length > 0)">
+                <v-card-title>
+                    <h5>Perubahan Data</h5>
+                </v-card-title>
+                <v-card-text class="px-0">
+                    <div class="v-data-table elevation-0 style-table mx-2 theme--light">
+                        <div class="v-data-table__wrapper">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th colspan="2">NAME</th>
+                                        <th>OLD DATA</th>
+                                        <th>NEW DATA</th>
+                                    </tr>
+                                    <tr
+                                        v-for="(data, idx) in element.changes"
+                                    >
+                                        <td v-if="showNotId(idx)">@{{ idx }}</td>
+                                        <td v-if="showNotId(idx)">:</td>
+                                        <td v-if="showNotId(idx)">@{{ element.old[idx] }}</td>
+                                        <td v-if="showNotId(idx)">@{{ data }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-            </v-card-text>
-        </v-card>
+                </v-card-text>
+            </v-card>
+
+            <v-card class="my-5" v-if="(element.changes.length > 0 || Object.keys(element.changes).length > 0) && (!element.hasOwnProperty('old'))">
+                <v-card-title>
+                    <h5>Perubahan Data</h5>
+                </v-card-title>
+                <v-card-text class="px-0">
+                    <div class="v-data-table elevation-0 style-table mx-2 theme--light">
+                        <div class="v-data-table__wrapper">
+                            <table>
+                                <tbody>
+                                    <tr
+                                        v-for="(data, idx) in element.changes"
+                                    >
+                                        <td v-if="showNotId(idx)">@{{ idx }}</td>
+                                        <td v-if="showNotId(idx)">:</td>
+                                        <td v-if="showNotId(idx)">@{{ data }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </v-card-text>
+            </v-card>
+        </div>
+
 
         <div class="d-flex">
             <v-btn
                 class="my-4 ml-auto"
-    	        type="button"
-    	        :disabled="field_state"
+                type="button"
+                :disabled="field_state"
                 large
                 :href="redirectUri"
-    	    >
+            >
                 Kembali
             </v-btn>
         </div>
@@ -152,6 +132,6 @@
         elevation="5"
         timeout="6000"
     >
-    	@{{ form_alert_text }}
+        @{{ form_alert_text }}
     </v-snackbar>
 </validation-observer>

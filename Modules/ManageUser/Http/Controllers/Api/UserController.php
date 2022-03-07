@@ -65,6 +65,10 @@ class UserController extends Controller
 
         DB::beginTransaction();
         try {
+            $old = collect([
+                'old' => $user->getOriginal()
+            ]);
+
             if (empty($request->password)) {
                 $user->update($request->except('password'));
             } else {
@@ -75,7 +79,8 @@ class UserController extends Controller
 
             log_activity(
                 'Update user ' . $user->nama_lengkap,
-                $user
+                $user,
+                $old
             );
 
             DB::commit();

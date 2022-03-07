@@ -59,11 +59,16 @@ class JabatanController extends Controller
 
         DB::beginTransaction();
         try {
+            $old = collect([
+                'old' => $jabatan->getOriginal()
+            ]);
+
             $jabatan->update($request->all());
 
             log_activity(
                 'Update jabatan ' . $jabatan->nama_jabatan,
-                $jabatan
+                $jabatan,
+                $old
             );
             DB::commit();
             return response_json(true, null, 'Jabatan berhasil disimpan.', $jabatan);
