@@ -34,7 +34,7 @@
         </v-row>
 
         <div v-for="(element, index) in form_data.properties">
-            <v-card class="my-5" v-if="(element.attributes.length > 0 || Object.keys(element.attributes).length > 0) && (element.changes.length == 0 || Object.keys(element.changes).length == 0)">
+            <v-card class="my-5" v-if="(element.attributes.length > 0 || Object.keys(element.attributes).length > 0) && !element.hasOwnProperty('old')">
                 <v-card-title>
                     <h5>Detail Data</h5>
                 </v-card-title>
@@ -46,7 +46,7 @@
                                     <tr
                                         v-for="(data, idx) in element.attributes"
                                     >
-                                        <td v-if="showNotId(idx)">@{{ idx }}</td>
+                                        <td v-if="showNotId(idx)" style="text-transform: capitalize;">@{{ changeFormatKey(idx) }}</td>
                                         <td v-if="showNotId(idx)">:</td>
                                         <td v-if="showNotId(idx)">@{{ data }}</td>
                                     </tr>
@@ -57,7 +57,7 @@
                 </v-card-text>
             </v-card>
 
-            <v-card class="my-5" v-if="(element.hasOwnProperty('old')) && (element.changes.length > 0 || Object.keys(element.changes).length > 0)">
+            <v-card class="my-5" v-if="(element.hasOwnProperty('old')) && (element.hasOwnProperty('changes'))">
                 <v-card-title>
                     <h5>Perubahan Data</h5>
                 </v-card-title>
@@ -74,7 +74,7 @@
                                     <tr
                                         v-for="(data, idx) in element.changes"
                                     >
-                                        <td v-if="showNotId(idx)">@{{ idx }}</td>
+                                        <td v-if="showNotId(idx)" style="text-transform: capitalize;">@{{ changeFormatKey(idx) }}</td>
                                         <td v-if="showNotId(idx)">:</td>
                                         <td v-if="showNotId(idx)">@{{ element.old[idx] }}</td>
                                         <td v-if="showNotId(idx)">@{{ data }}</td>
@@ -86,28 +86,30 @@
                 </v-card-text>
             </v-card>
 
-            <v-card class="my-5" v-if="(element.changes.length > 0 || Object.keys(element.changes).length > 0) && (!element.hasOwnProperty('old'))">
-                <v-card-title>
-                    <h5>Perubahan Data</h5>
-                </v-card-title>
-                <v-card-text class="px-0">
-                    <div class="v-data-table elevation-0 style-table mx-2 theme--light">
-                        <div class="v-data-table__wrapper">
-                            <table>
-                                <tbody>
-                                    <tr
-                                        v-for="(data, idx) in element.changes"
-                                    >
-                                        <td v-if="showNotId(idx)">@{{ idx }}</td>
-                                        <td v-if="showNotId(idx)">:</td>
-                                        <td v-if="showNotId(idx)">@{{ data }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+            <div v-if="(element.hasOwnProperty('changes')) && (!element.hasOwnProperty('old'))">
+                <v-card class="my-5" v-if="element.changes.length > 0 || Object.keys(element.changes).length > 0">
+                    <v-card-title>
+                        <h5>Perubahan Data</h5>
+                    </v-card-title>
+                    <v-card-text class="px-0">
+                        <div class="v-data-table elevation-0 style-table mx-2 theme--light">
+                            <div class="v-data-table__wrapper">
+                                <table>
+                                    <tbody>
+                                        <tr
+                                            v-for="(data, idx) in element.changes"
+                                        >
+                                            <td v-if="showNotId(idx)" style="text-transform: capitalize;">@{{ changeFormatKey(idx) }}</td>
+                                            <td v-if="showNotId(idx)">:</td>
+                                            <td v-if="showNotId(idx)">@{{ data }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
-                </v-card-text>
-            </v-card>
+                    </v-card-text>
+                </v-card>
+            </div>
         </div>
 
 

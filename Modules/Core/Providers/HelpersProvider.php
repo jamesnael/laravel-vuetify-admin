@@ -121,7 +121,8 @@ if (! function_exists('prepare_main_menu')) {
                 $uri = str_replace('.create', '', $uri);
                 $uri = str_replace('.edit', '', $uri);
 
-                $item['model'] = in_array($uri, $current_route) || strpos(implode('.', $current_route), $uri) !== false;
+                $item['model'] = in_array($uri, $current_route);
+                // $item['model'] = in_array($uri, $current_route) || strpos(implode('.', $current_route), $uri) !== false;
             }
 
             $have_true_child = collect($item['children'])->sum(function($item) {

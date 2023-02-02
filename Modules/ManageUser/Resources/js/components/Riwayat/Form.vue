@@ -52,7 +52,10 @@
         },
 		methods: {
 			showNotId(key) {
-				return (!_.includes(key, '_at') && key != 'id' && !_.includes(key, '_id'));
+				return (!_.includes(key, '_at') && key != 'id' && key != 'slug' && !_.includes(key, '_id'));
+			},
+			changeFormatKey(key) {
+				return key.replace(/_/g, ' ');
 			},
 			selectAll() {
     	        this.refreshCK = false

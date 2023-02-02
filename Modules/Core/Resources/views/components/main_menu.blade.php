@@ -21,10 +21,10 @@
             </v-row>
         </div>
         <template v-for="item in menu">
-            <div v-if="item.children"
-            class="my-2">
+            <div v-if="item.children">
                 <v-list-group       
                     v-if="item.show"
+                    class="my-2"
                     :key="item.text"
                     v-model="item.model"
                     :prepend-icon="item.icon"
@@ -58,9 +58,9 @@
                     </v-list-item>
                 </v-list-group>
             </div>
-            <div v-else
-            class="my-2">
+            <div v-else>
                 <v-list-item
+                    class="my-2"
                     v-if="item.show"
                     :key="item.text"
                     v-model="item.model"
