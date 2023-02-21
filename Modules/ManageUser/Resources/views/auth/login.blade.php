@@ -62,8 +62,7 @@
                 </div>
 
                 <v-btn
-                    class="mr-4"
-                    dark
+                    class="mr-4 white--text"
                     color="#BD342D"
                     block
                     type="submit"

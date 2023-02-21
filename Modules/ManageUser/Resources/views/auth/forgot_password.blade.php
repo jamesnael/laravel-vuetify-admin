@@ -31,8 +31,7 @@
                     <a href="{{ route('login') }}" class="link">Ingat Sandi?</a>
                 </div>
                 <v-btn
-                    class="mt-2"
-                    dark
+                    class="mt-2 white--text"
                     color="#BD342D"
                     block
                     type="submit"

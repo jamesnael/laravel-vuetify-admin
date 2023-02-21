@@ -106,7 +106,7 @@
                             <small class="style-text-job">{{ Auth::user()->jabatan->nama_jabatan }}<small>
                         </v-col>
                         <v-btn icon small class="mt-5 mr-1" href="{{ route('logout') }}">
-                            <v-icon color="#ffffff" small>
+                            <v-icon color="#000000" small>
                                 mdi-logout
                             </v-icon>
                         </v-btn>
