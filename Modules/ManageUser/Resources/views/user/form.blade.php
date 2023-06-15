@@ -150,11 +150,10 @@
 
         <div class="d-flex">
             <v-btn
-            	class="my-4 mr-4 ml-auto"
+            	class="my-4 mr-4 ml-auto white--text"
               	:loading="field_state"
               	:disabled="field_state"
                 color="#BD342D"
-                dark
                 large
                 @click="submitForm"
             >
