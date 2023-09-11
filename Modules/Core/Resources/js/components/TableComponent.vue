@@ -559,68 +559,6 @@
 	                    this.table_alert_text = 'Oops, something went wrong. Please try again later.'
 	    		    });
 			},
-			async submitBulkUpdateTimesheetsDetail() {
-				const formData = new FormData();
-				for (const row of this.data_table) {
-					var nama_lengkap = row.nama_lengkap
-
-			    	for (const value_normal of row.data_source_Normal) {
-			    		await this.checkJamIstirahat(value_normal,nama_lengkap)
-			    	}
-			    	this.selectedDataFunction(row, formData)
-				}
-	        	this.field_state = true
-			    axios.post(this.bulkUpdateUri, formData)
-	    		    .then((response) => {
-	    		        if (response.data.success) {
-		    		        this.field_state = false
-	    		            this.table_alert = true
-	                        this.table_alert_state = 'success'
-	                        this.table_alert_text = response.data.message
-
-	    		            this.dataHandler()
-	    		            
-				            setTimeout(location.reload(), 2000);
-
-	    		        } else {
-		    		        this.field_state = false
-	    		            this.table_alert = true
-	                        this.table_alert_state = 'error'
-	                        this.table_alert_text = response.data.message
-	    		        }
-	    		    })
-	    		    .catch((error) => {
-	    		        this.field_state = false
-	    		        this.table_alert = true
-	    		        this.table_alert_state = 'error'
-	                    this.table_alert_text = 'Oops, something went wrong. Please try again later.'
-	    		    });
-			},
-			async checkJamIstirahat(value,nama_lengkap) {
-				if (moment(value.start_kerja, "HH:mm").isSameOrBefore(moment("12:00", "HH:mm")) && moment(value.end_kerja, "HH:mm").isSameOrAfter(moment("13:00", "HH:mm")) && value.aktivitas != "Standby") {
-			    			await Swal.fire({
-			    			 	allowOutsideClick: false,
-			    			  	title: 'Jam kerja melewati jam Istirahat?',
-				    			text: "Apakah jam kerja "+ nama_lengkap + " tanggal " +value.group_date + " " + value.start_kerja + ' - ' + value.end_kerja + " termasuk Istirahat?",
-				    			icon: 'warning',
-				    			showCancelButton: false,
-				    			showDenyButton: true,
-				    			confirmButtonColor: '#3085d6',
-				    			denyButtonColor: '#d33',
-				    			confirmButtonText: 'Dengan Istirahat',
-				    			denyButtonText: 'Tanpa Istirahat'
-			    			})
-			    			.then((result) => {
-			    				if (result.isConfirmed) {
-			    					value.is_istirahat = 1
-			    			  	} else if (result.isDenied) {
-			    					value.istirahat = 0
-			    			  	}
-			    			})
-			    		} else {
-			    			console.log("tidak terdeteksi ada is_istirahat")
-			    		}
-			},
 			submitBulkUpdateSecond() {
 			    const formData = new FormData();
 			    _.forEach(this.data_table, (row) => {
