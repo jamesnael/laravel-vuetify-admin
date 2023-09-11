@@ -12,7 +12,8 @@ moment.locale('id')
 Vue.mixin({
     methods: {
         ziggy: function ( name, params, absolute ) { 
-            var namedRoute = route(name, params, true, Ziggy)
+            absolute = typeof absolute !== 'undefined' ? absolute : false;
+            var namedRoute = route(name, params, absolute, Ziggy)
             return namedRoute;
         },
         base_url: function() {
